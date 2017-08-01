@@ -25,7 +25,9 @@ private:
 
 	bool GetSightRayHitLocation(FVector& HitLocation) const;
 
-public:
-	//Called Every Frame
+	UPROPERTY(EditAnywhere) float CrossHairXLocation = 0.5;
+	UPROPERTY(EditAnywhere) float CrossHairYLocation = 0.3333;
+	
+		//Called Every Frame
 	virtual void Tick(float DeltaTime) override;
 };

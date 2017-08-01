@@ -12,8 +12,7 @@ ATank* ATankPlayerController::GetControlledTank() const {
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//UE_LOG(LogTemp, Warning, TEXT("This is Ticking"));
-	//TODO AimTowardsCrosshair();
+	AimTowardsCrosshair();
 
 }
 
@@ -34,13 +33,12 @@ void ATankPlayerController::BeginPlay()
 }
 void ATankPlayerController::AimTowardsCrosshair() {
 	FVector HitLocation; //Out Parameter
-	UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"),*HitLocation.ToString());
 
 	if (GetSightRayHitLocation(HitLocation)) {
-		//Start aiming toward Crosshair
+		//TODO Start aiming toward Crosshair
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Hit Location is now: %s"), *HitLocation.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("Look Direction: %s"), *HitLocation.ToString());
 
 	//Get Location worldspace of Linetrace through crosshair
 	//If it hits the Lanscape
@@ -48,12 +46,15 @@ void ATankPlayerController::AimTowardsCrosshair() {
 
 }
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocaiton) const{
-	FVector a =	FVector(0.0f, 0.0f, 3.6f);
-	OutHitLocaiton = a;
+	//Find Crosshair Position
+	int32 ViewportSizeX, ViewportSizeY;
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+	FVector2D ScreenLocation = FVector2D((ViewportSizeX*CrossHairXLocation), (ViewportSizeY*CrossHairYLocation));
+
+	//TODO De-project crosshair to world a world direciton
+	//TODO Raycast thought the Crosshair
+	//TODO See what we hit to a max range
 	
-	//TODO GetRaySightHitLocation implementation
-	
-	//Raycast thought the Crosshair
 	//IF Raycast hits a location on Landscape
 		//Return true
 	//Else

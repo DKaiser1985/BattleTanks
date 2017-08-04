@@ -37,15 +37,10 @@ void ATankPlayerController::AimTowardsCrosshair() {
 	FVector HitLocation; //Out Parameter
 
 	if (GetSightRayHitLocation(HitLocation)) {
+		
 		//TODO Start aiming toward Crosshair
+		GetControlledTank()->AimAt(HitLocation);
 	}
-
-	//UE_LOG(LogTemp, Warning, TEXT("Look Direction: %s"), *HitLocation.ToString());
-	
-	///TODO{
-		//Get Location worldspace of Linetrace through crosshair
-		//If it hits the Lanscape
-			//TODO Tell Controlled Tank to aim at this point}
 
 }
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocaiton) const{
@@ -58,19 +53,36 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocaiton) cons
 	
 	if (GetLookDirection(ScreenLocation, LookDirection)) 
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Look Direction: %s"), *LookDirection.ToString());
+		GetLookVectorHitLocation(LookDirection, OutHitLocaiton);
+		//TODO Raycast thought the Crosshair
+		// See what we hit to a max range
+
 	}
 	
-	//TODO Raycast thought the Crosshair
-	//TODO See what we hit to a max range
-	
-	//IF Raycast hits a location on Landscape
-		//Return true
-	//Else
-		//Return false
+
 	
 	return true;
 	
+}
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& OutHitLocation) const {
+	FHitResult HitResult;
+	auto StartLocation = PlayerCameraManager->GetCameraLocation();
+	auto EndLocation = StartLocation + (LookDirection * LineTraceRange);
+
+	//IF Raycast hits a location on Landscape
+	if(GetWorld()->LineTraceSingleByChannel(
+			HitResult, 
+			StartLocation,
+			EndLocation,
+			ECollisionChannel::ECC_Visibility))
+	{
+		OutHitLocation = HitResult.Location;
+	
+		return true;
+	}
+	//Blank out HitLocaiton
+	OutHitLocation = FVector(0);
+	return false;
 }
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const{
 	FVector CameraLocation; //To be Discarded

@@ -21,6 +21,21 @@ void ATankAIController::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("AI can See Player Tank: %s"), *PlayerTank->GetName());
 
 }
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	//TODO MoveTowardsPlayer();
+	if (GetPlayerTank()) {
+		AimTowardsPlayer();
+	}
+	//FireIfReady();
+
+}
+void ATankAIController::AimTowardsPlayer() {
+	
+	GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+		
+}
 ATank* ATankAIController::GetPlayerTank() const {
 
 	auto PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();

@@ -39,22 +39,38 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 }
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	//FVector OutLaunchVelocity;
-	//FVector StartLocation = Barrel->GetSocketLocation(FName("Muzzle"));
+	if (Barrel == nullptr) {
+		
+		auto ThisTank = GetOwner()->GetName();
+		UE_LOG(LogTemp, Warning, TEXT("%s Barrel is NULL"), *ThisTank);
+		return;
+	}
+	
+	FVector OutLaunchVelocity;
+	FVector StartLocation = Barrel->GetSocketLocation(FName("Socket"));
+	//= Barrel->GetSocketLocation(FName("Muzzle"));
 
 	auto OurTankName = GetOwner()->GetName();
 
 
-	if (Barrel == nullptr) {
-		UE_LOG(LogTemp, Warning, TEXT("Barrel is NULL"));
-		return;
+
+	if (UGameplayStatics::SuggestProjectileVelocity(
+		this,
+		OutLaunchVelocity,
+		StartLocation,
+		HitLocation,
+		LaunchSpeed,
+		false,
+		0.0f,
+		0.0f,
+		ESuggestProjVelocityTraceOption::DoNotTrace)
+		)
+	{
+		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s"), *OurTankName, *AimDirection.ToString());
 	}
-	else {
-		auto BarrelLocation = Barrel->GetComponentLocation().ToString();
-		UE_LOG(LogTemp, Warning, TEXT("Barrel is not Null"));
-	}
-	//Calculate the OutLaunchVelocity
-		//auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+	
+		
 		
 
 

@@ -31,22 +31,15 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Socket"));
-	//= Barrel->GetSocketLocation(FName("Muzzle"));
 
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, HitLocation, LaunchSpeed, false, 0.0, 0.0, ESuggestProjVelocityTraceOption::DoNotTrace);
 	
 	if(bHaveAimSolution){
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
-		
-		auto Time = GetWorld()->GetRealTimeSeconds();
-		auto TankName = GetOwner()->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("%f: Aim Solution Found on %s"), Time, *TankName);
 	}
 	else {
-		auto Time = GetWorld()->GetRealTimeSeconds();
-		auto TankName = GetOwner()->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("%f: No Aim Solution on %s"), Time, *TankName);
+		//No Aim Solution, do nothing
 	}
 }
 
@@ -55,8 +48,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator AimAsRotator = AimDirection.Rotation();
 
-	//UE_LOG(LogTemp, Warning, TEXT("%s AimAsRotatotr is %s"), *GetOwner()->GetName(), *AimAsRotator.ToString());
-	
 	//Find the difference between current Position and hit locaiton
 	FRotator DeltaRotator = AimAsRotator - BarrelRotator;
 	

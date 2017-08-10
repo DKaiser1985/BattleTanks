@@ -2,11 +2,12 @@
 
 #pragma once
 
-#include "TankAimingComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
+class UTankAimingComponent;
+class UTankBarrel;
 
 UCLASS()
 class BATTLETANKS_API ATank : public APawn
@@ -25,8 +26,6 @@ protected:
 	virtual void BeginPlay() override;
 	
 	UTankAimingComponent* TankAimingComponent = nullptr;
-
-
 
 public:	
 	void AimAt(FVector HitLocation);

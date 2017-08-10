@@ -21,8 +21,6 @@ public:
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 	void SetTurretReference(UTankTurret* TurretToSet);
 
-	//TODO: Add SetTurretReference()
-
 	void MoveBarrelTowards(FVector HitLocaiton);
 
 public:	

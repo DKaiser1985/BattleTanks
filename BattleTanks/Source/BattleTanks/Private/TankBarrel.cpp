@@ -6,8 +6,8 @@
 void UTankBarrel::Elevate(float RelativeSpeed) {
 	
 	//Rotate Barrel by the correct ammount this frame to the AimDirection by some distance per second
-	auto Time = GetWorld()->GetRealTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f: Tank Elevate"), Time);
+	//auto Time = GetWorld()->GetRealTimeSeconds();
+	//UE_LOG(LogTemp, Warning, TEXT("%f: Tank Elevate"), Time);
 
 	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1.0f, +1.0f);
 

@@ -5,8 +5,8 @@
 
 void UTankTurret::Rotate(float RelativeSpeed)
 {
-	auto Time = GetWorld()->GetRealTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f: Tank Rotate"), Time);
+	//auto Time = GetWorld()->GetRealTimeSeconds();
+	//UE_LOG(LogTemp, Warning, TEXT("%f: Tank Rotate"), Time);
 
 	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1.0f, +1.0f);
 

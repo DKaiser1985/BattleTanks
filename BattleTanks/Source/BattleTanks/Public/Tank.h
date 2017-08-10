@@ -30,6 +30,9 @@ protected:
 
 public:	
 	void AimAt(FVector HitLocation);
+
+	UFUNCTION(BlueprintCallable, Category = Actions)
+	void Fire();
 	
 	UFUNCTION(BlueprintCallable, Category = Setup) 
 	void SetBarrelReference(UTankBarrel* BarrelToSet);	
@@ -38,5 +41,5 @@ public:
 	void SetTurretReference(UTankTurret* TurretToSet);
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 100000; //TODO Find Sensible Default Find LaunchSpeed
+	float LaunchSpeed = 40000; //TODO Find Sensible Default Find LaunchSpeed
 };

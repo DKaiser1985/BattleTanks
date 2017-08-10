@@ -41,10 +41,11 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATank::AimAt(FVector HitLocation) {
 	
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
-
-
-
 }
-
+void ATank::Fire() {
+	
+	auto Time = GetWorld()->GetRealTimeSeconds();
+	UE_LOG(LogTemp, Warning, TEXT("Tank fired a projectile at %f seconds"), Time);
+}
 
 

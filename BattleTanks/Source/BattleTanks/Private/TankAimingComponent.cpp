@@ -51,7 +51,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	//Find the difference between current Position and hit locaiton
 	FRotator DeltaRotator = AimAsRotator - BarrelRotator;
 	
-	Barrel->Elevate(5);//TODO Remove HardCorded number
+	Barrel->Elevate(DeltaRotator.Pitch);//Move the barrel with Pitch Based on crosshair
 
 
 }

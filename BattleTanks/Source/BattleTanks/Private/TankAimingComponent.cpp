@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTanks.h"
+#include "TankBarrel.h"
 #include "TankAimingComponent.h"
 
 
@@ -14,7 +15,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
@@ -46,12 +47,12 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator AimAsRotator = AimDirection.Rotation();
 
-	UE_LOG(LogTemp, Warning, TEXT("%s AimAsRotatotr is %s"), *GetOwner()->GetName(), *AimAsRotator.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("%s AimAsRotatotr is %s"), *GetOwner()->GetName(), *AimAsRotator.ToString());
 	
 	//Find the difference between current Position and hit locaiton
 	FRotator DeltaRotator = AimAsRotator - BarrelRotator;
 	
-	//Rotate Barrel by the correct ammounjt this frame to the AimDirection by some distance per second
+	Barrel->Elevate(5);//TODO Remove HardCorded number
 
 
 }

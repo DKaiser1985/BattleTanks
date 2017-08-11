@@ -5,16 +5,12 @@
 
 void UTankTurret::Rotate(float RelativeSpeed)
 {
-	//auto Time = GetWorld()->GetRealTimeSeconds();
-	//UE_LOG(LogTemp, Warning, TEXT("%f: Tank Rotate"), Time);
-
+	//Clamp the speed to ±100% of the value MaxDegreePerSecond
 	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1.0f, +1.0f);
 
+	///Calculate yaw change based on time not frames as to be framerate independent
 	auto ElevationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
 	auto RawNewRotation = RelativeRotation.Yaw + ElevationChange;
-
-	//Lock the Barrel to Min/Max Pitch
-	//float ClammpedElevation = FMath::Clamp<float>(RawNewElevation, MinPitchDegrees, MaxPitchDegrees);
 
 	//Move the barrel Per frame
 	SetRelativeRotation(FRotator(0, RawNewRotation, 0));

@@ -5,12 +5,12 @@
 
 void UTankBarrel::Elevate(float RelativeSpeed) {
 	
-	//Rotate Barrel by the correct ammount this frame to the AimDirection by some distance per second
-	//auto Time = GetWorld()->GetRealTimeSeconds();
-	//UE_LOG(LogTemp, Warning, TEXT("%f: Tank Elevate"), Time);
+	///Rotate Barrel by the correct ammount this frame to the AimDirection by some distance per second
 
+	//Clamp the speed to ±100% of the value MaxDegreePerSecond
 	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1.0f, +1.0f);
 
+	///Calculate elevation change based on time not frames as to be framerate independent
 	auto ElevationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
 	auto RawNewElevation = RelativeRotation.Pitch + ElevationChange;
 	

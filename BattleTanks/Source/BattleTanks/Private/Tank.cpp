@@ -14,6 +14,7 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	//No Need to protect pointers as added at construction
+	//Added Tank Aiming component as a default Subobject
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName ("Aiming Component"));
 
 }
@@ -47,15 +48,18 @@ void ATank::AimAt(FVector HitLocation) {
 }
 void ATank::Fire() {
 	
-	auto Time = GetWorld()->GetRealTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("Tank fired a projectile at %f seconds"), Time);
+	//auto Time = GetWorld()->GetRealTimeSeconds();
+	//UE_LOG(LogTemp, Warning, TEXT("Tank fired a projectile at %f seconds"), Time);
 
 	if (!Barrel) { return; } //Protect Pointer
 	
 	//Spawn Projectile at the Muzzle socket of the Barrel
 	FVector Muzzle = Barrel->GetSocketLocation(FName("Muzzle"));
 	FRotator Rotator = Barrel->GetSocketRotation(FName("Muzzle"));;
-	GetWorld()->SpawnActor <AProjectile>(ProjectileBlueprint, Muzzle, Rotator);
+	auto Projectile  = GetWorld()->SpawnActor <AProjectile>(ProjectileBlueprint, Muzzle, Rotator);
+
+	//Launch The Projectile
+	Projectile->LaunchProjectile(LaunchSpeed);
 }
 
 

@@ -10,6 +10,11 @@ AProjectile::AProjectile()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	//Added Tank Aiming component as a default Subobject
+	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Movement Component"));
+	ProjectileMovement->bAutoActivate = false;
+
+
 }
 
 // Called when the game starts or when spawned
@@ -24,5 +29,13 @@ void AProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+void AProjectile::LaunchProjectile(float LaunchSpeed) {
+	
+	auto Time = GetWorld()->GetRealTimeSeconds();
+	UE_LOG(LogTemp, Warning, TEXT("%f: Projectile Launched at %f"), Time, LaunchSpeed);
+
+	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector* LaunchSpeed);
+	ProjectileMovement->Activate();
 }
 

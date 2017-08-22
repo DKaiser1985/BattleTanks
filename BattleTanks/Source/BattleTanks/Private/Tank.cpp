@@ -17,7 +17,7 @@ ATank::ATank()
 	//No Need to protect pointers as added at construction
 	//Added Tank Aiming component as a default Subobject
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName ("Aiming Component"));
-	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName ("Movement Component"));
+	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName ("Movement Component"));
 
 }
 

@@ -14,10 +14,21 @@ void UTankMovementComponent::Initialize(UTankTracks* LeftTrackToSet, UTankTracks
 
 void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
 {
-	FString MoveVelocityString = MoveVelocity.ToString();
+	//Find the vector the Tank is facing and where we want it to face
+	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
 	
-	auto TankName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s Tank Vectoring to %s"), *TankName, *MoveVelocityString);
+	//DotProduct returns the cosine of the resulting vector multiplication to tell 
+	//the tanks how to get a side shot on the player tank
+	auto ForwardThrow = FVector::DotProduct(TankForward, AIForwardIntention);
+
+	auto RightThrow = FVector::CrossProduct(AIForwardIntention, TankForward);
+	IntendTurnRight(RightThrow.Z);
+
+	//Pass the DotProduct result into the IntendMoveForward
+	IntendMoveForward(ForwardThrow);
+
+
 }
 
 void UTankMovementComponent::IntendMoveForward(float Throw) {
